@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "prefect-supporter"
-version = "1.0.1"
+version = "1.0.2"
 description = "Prefect Supporter"
 authors = ["Kunizno <pykunzino@gmail.com>"]
 maintainers = [

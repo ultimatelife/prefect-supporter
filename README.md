@@ -8,21 +8,34 @@ prefect_supporter provide services to supporter to manage Prefect
    - create your deployment
       - example  
       ```python
-      Deployment.build_from_flow(
-        flow=clear_db_history_flow,
-        name="clear_db_history_deployment",
-        schedule=None,
-        work_queue_name="default",
-        tags=["prefect-management"],
-        parameters={
-            "frc": FlowRunClearing(
-                state_list=[StateType.COMPLETED],
-                before_dt=datetime.now(),
-                after_dt=datetime(year=1970, month=1, day=1, hour=0, minute=0)
-            )
-        },
-        apply=True
-       )
+        
+        from datetime import datetime, timedelta
+    
+        from prefect.settings import PREFECT_API_URL
+        from prefect.deployments import Deployment
+        from prefect.server.schemas.schedules import CronSchedule
+        from prefect.server.schemas.states import StateType
+        from prefect_supporter.flow import clear_db_history
+        from prefect_supporter.flow.clear_db_history import clear_db_history_flow
+        from prefect_supporter.model.clearing_db import FlowRunClearing
+        
+        Deployment.build_from_flow(
+            flow=clear_db_history_flow,
+            name="clear_db_history_deployment",
+            schedule=CronSchedule(cron="0 * * * *", ),
+            work_queue_name="default",
+            tags=["prefect-management"],
+            entrypoint=f"{clear_db_history.__file__}:clear_db_history_flow",
+            parameters={
+                "frc": FlowRunClearing(
+                    api_url=PREFECT_API_URL.value(),
+                    state_list=[StateType.COMPLETED],
+                    before_dt=(datetime.now() - timedelta(days=7)),
+                    after_dt=datetime(year=1970, month=1, day=1, hour=0, minute=0)
+                )
+            },
+            apply=True
+        )
       ```
      
   - Parameter   
