@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "prefect-supporter"
-version = "1.0.0"
+version = "1.0.1"
 description = "Prefect Supporter"
 authors = ["Kunizno <pykunzino@gmail.com>"]
 maintainers = [
@@ -27,7 +27,7 @@ keywords = ["prefect", "prefect-supporter"]
 [tool.poetry.dependencies]
 python = "^3.9"
 prefect = "^2.11.5"
-pydantic = "1.10.12"
+pydantic = "^1.10.12"
 httpx = "0.24.1"
 
 [tool.poetry.group.test.dependencies]
